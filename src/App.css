@@ -1,38 +1,51 @@
-.App {
-  text-align: center;
+*,*::before,*::after {box-sizing: border-box;}
+ul,ol {padding: 0;}
+body,h1,h2,h3,h4,p,ul,ol,li,figure,figcaption,blockquote,dl,dd {margin: 0;}
+body {min-height: 100vh;scroll-behavior: smooth;text-rendering: optimizeSpeed;line-height: normal;}
+ul,ol {list-style: none;}
+a {text-decoration: inherit;color: inherit;}
+a:not([class]) {text-decoration-skip-ink: auto;}
+img {max-width: 100%;display: block;}
+input,button,textarea,select {font: inherit;}
+@media (prefers-reduced-motion: reduce) {* {animation-duration: 0.01ms !important;animation-iteration-count: 1 !important;transition-duration: 0.01ms !important;scroll-behavior: auto !important;}}
+
+.header {
+  width: 100%;
+  background-color: rgba(204, 204, 204, 0.411);
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+.search-form {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+} 
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.search-form .col {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* align-items: flex-start; */
 }
 
-.App-link {
-  color: #61dafb;
+.search-form button {
+  max-width: 300px;
+  width: 100%;
+  padding: 6px 10px;
+  align-self: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input-field {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.request-status {
+  text-align: center;
+}
+.request-status.error {
+  color: red;
+}
+.request-status.done {
+  color: green;
 }
