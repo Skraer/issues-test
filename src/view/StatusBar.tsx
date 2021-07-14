@@ -1,43 +1,32 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { IStatusBar, StatusBarClassType } from "../interfaces/searchForm";
-// import { StatusBarClassType } from "../interfaces/SearchForm";
+import React from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { DefaultIssuesState } from '../interfaces/issues'
 
-const StatusBar: React.FC<IStatusBar> = ({status}) => {
-  const [text, setText] = useState('');
-  const [statusClass, setStatusClass] = useState<StatusBarClassType>(null);
+const StatusBar: React.FC = () => {
+  const [classes, setClasses] = useState(['request-status'])
+  const [text, setText] = useState('')
 
-  const changeStatusClass = (): void => {
-    switch (status) {
-      case 'loading':
-        setText('Загрузка...');
-        setStatusClass(null);
-        break;
-      case 'error':
-        setText('Ошибка запроса');
-        setStatusClass('error');
-        break;
-      case 'done':
-        setText('Данные загружены');
-        setStatusClass('done');
-        break;
-      default:
-        setText('');
-        setStatusClass(null);
-        break;
-    }
-  };
+  const loading = useSelector(
+    (state: DefaultIssuesState) => state.issues.loading
+  )
+  const error = useSelector((state: DefaultIssuesState) => state.issues.error)
 
   useEffect(() => {
-    changeStatusClass();
-  }, [status]);
+    if (loading) {
+      setText('Загрузка...')
+      setClasses(['request-status'])
+    } else if (!loading && error) {
+      setText('Ошибка запроса')
+      setClasses(['request-status', 'error'])
+    } else {
+      setText('')
+      // setClasses(['request-status', 'done'])
+    }
+  }, [error, loading])
 
-  return (
-    <div className={`request-status ${statusClass}`}>
-      {text}
-    </div>
-  )
+  return <div className={classes.join(' ')}>{text}</div>
 }
 
-export {StatusBar};
+export { StatusBar }

@@ -49,3 +49,40 @@ input,button,textarea,select {font: inherit;}
 .request-status.done {
   color: green;
 }
+
+.issue-list {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.issue-item {
+  border: 1px solid rgba(204, 204, 204, 0.7);
+  box-shadow: 0 0 3px 2px #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.issue-item + .issue-item {
+  margin-top: 20px;
+}
+.issue-item a:hover {
+  text-decoration: underline;
+}
+
+.issue-item_box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.issue-item_box:first-child {
+  flex-basis: 70%;
+}
+
+
+.issue-item_header {
+  display: flex;
+  justify-content: space-between;
+}

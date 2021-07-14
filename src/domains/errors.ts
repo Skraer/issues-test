@@ -1,5 +1,5 @@
 const showDataNotFound = (): void => {
-  alert('Неверный логин и/или репозиторий');
+  alert('Неверный логин и/или репозиторий')
 }
 
-export {showDataNotFound};
+export { showDataNotFound }
