@@ -6,7 +6,7 @@ import SearchForm from './view/SearchForm'
 import { IssuesList } from './view/Issues/IssuesList'
 import { useSelector } from 'react-redux'
 import { DefaultIssuesState } from './interfaces/issues'
-import { showDataNotFound } from './domains/errors'
+// import { showDataNotFound } from './domains/alert'
 // import Home from './view/home/home';
 
 const App: React.FC = () => {

@@ -10,6 +10,9 @@ export const getQueryString = (options: FetchIssuesOptionsType): string => {
   return str
 }
 
-// export const parseDataToObj = (data: []): IIssueItem => {
-
-// }
+export const getIssuesCount = async (user: string, repo: string) => {
+  const reponse = await fetch(
+    `https://api.github.com/search/issues?q=repo:${user}/${repo}%20is:issue+state:open`
+  )
+  return await reponse.json().then((r) => r['total_count'])
+}

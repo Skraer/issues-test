@@ -22,7 +22,6 @@ const StatusBar: React.FC = () => {
       setClasses(['request-status', 'error'])
     } else {
       setText('')
-      // setClasses(['request-status', 'done'])
     }
   }, [error, loading])
 

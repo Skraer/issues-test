@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { getFullDateString } from '../../domains/shared/utils'
+import { getFullDateString } from '../../modules/dates'
 import { IIssueItem } from '../../interfaces/issues'
 
 // interface IssueItemProps {
@@ -16,11 +16,12 @@ const IssueItem: React.FC<IIssueItem> = ({
   number,
   url,
 }: IIssueItem) => {
-  const [correctDate, setCorrectDate] = useState('')
+  // const [correctDate, setCorrectDate] = useState('')
+  const correctDate = getFullDateString(createdAt)
 
-  useEffect(() => {
-    setCorrectDate(getFullDateString(createdAt))
-  }, [])
+  // useEffect(() => {
+  //   setCorrectDate(getFullDateString(createdAt))
+  // }, [])
 
   return (
     <div className="issue-item">

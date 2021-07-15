@@ -5,10 +5,15 @@ export interface IIssueItem {
   url: string
 }
 
-export type IssuesListType = {
-  list: IIssueItem[]
+export interface IssuesListType {
+  list: IIssueItem[] | null
   loading: boolean
   error: null | string
+  totalCount: null | number
+  username: string
+  repo: string
+  page: null | number | string
+  // perPage: number | string
 }
 
 export interface DefaultIssuesState {

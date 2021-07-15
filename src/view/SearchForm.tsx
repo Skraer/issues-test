@@ -1,25 +1,25 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { showDataNotFound } from '../domains/errors'
 import { DefaultIssuesState } from '../interfaces/issues'
-// import { fetchIssues, fetchRepo } from '../domains/requests'
-import { fetchIssues } from '../store/actions'
-// import { LoadingStatusType } from "../interfaces/SearchForm";
-import { StatusBar } from './StatusBar'
+import {
+  // fetchIssues,
+  setUsername as setUsernameAction,
+  setRepo as setRepoAction,
+  fetchIssues,
+} from '../store/actions'
+import { FETCH_ISSUES } from '../store/types'
 
 const SearchForm: React.FC = () => {
   const [username, setUsername] = useState('')
   const [repo, setRepo] = useState('')
+  const [perPage, setPerPage] = useState(10)
+
   const loading = useSelector(
     (state: DefaultIssuesState) => state.issues.loading
   )
-  const [data, setData] = useState({})
-  const dispatch = useDispatch()
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
+  const dispatch = useDispatch()
 
   const normalizeString = (str: string): string => str.trim().toLowerCase()
 
@@ -33,17 +33,23 @@ const SearchForm: React.FC = () => {
     setRepo(e.target.value)
   }
 
-  // const handleData = (data: { [key: string]: any }): void => {
-  //   setData(data)
-  //   if (data && data.message && data.message.toLowerCase().match('not found')) {
-  //     showDataNotFound()
-  //   }
-  //   // setDisabled(false)
-  // }
-
   const userSearchSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    dispatch(fetchIssues(normalizeString(username), normalizeString(repo)))
+    const u = normalizeString(username)
+    const r = normalizeString(repo)
+    dispatch(setUsernameAction(u))
+    dispatch(setRepoAction(r))
+    dispatch({
+      type: FETCH_ISSUES,
+      payload: {
+        username: u,
+        repo: r,
+        options: {
+          perPage,
+        },
+      },
+    })
+    // dispatch(fetchIssues(u, r, { perPage }))
   }
 
   return (
@@ -74,7 +80,22 @@ const SearchForm: React.FC = () => {
             Поиск
           </button>
         </div>
-        <StatusBar />
+        <div className="input-field select-field">
+          <label>
+            <span>Количество отображаемых обращений</span>
+            <select
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(+e.target.value)
+              }}
+            >
+              <option value="10">10</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+            </select>
+          </label>
+        </div>
+        {/* <StatusBar /> */}
       </form>
     </div>
   )
