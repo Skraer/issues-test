@@ -1,4 +1,5 @@
-import { FetchIssuesOptionsType } from '../interfaces/requests'
+// import { FetchIssuesOptionsType } from '../interfaces/requests'
+// import { IssuesOptionsType } from '../interfaces/api'
 import { Dispatch } from 'redux'
 import {
   CLEAR_ERROR,
@@ -6,18 +7,18 @@ import {
   LOADING_END,
   LOADING_START,
   SET_COUNT,
+  SET_ISSUES,
   SET_PAGE,
   SET_REPO,
   SET_USERNAME,
   SHOW_ERROR,
 } from './types'
 import { IssuesActionType } from './issues'
-import { getIssuesCount, getQueryString } from '../domains/issues'
+// import { getIssuesCount, getQueryString } from '../domains/issues'
 // import { showDataNotFound } from '../domains/alert'
 import { alertHandler } from '../modules/alert'
 import store from '.'
-
-const API_URL: string = 'https://api.github.com'
+import { IssuesListType } from '../interfaces/issues'
 
 export type FetchIssuesType = Dispatch
 
@@ -83,6 +84,13 @@ const fetchIssues = (): IssuesActionType => {
   }
 }
 
+const setIssues = (list: IssuesListType | null): IssuesActionType => {
+  return {
+    type: SET_ISSUES,
+    payload: list,
+  }
+}
+
 // const fetchIssues = (
 //   username: string,
 //   repo: string,
@@ -143,4 +151,6 @@ export {
   setRepo,
   setUsername,
   changePage,
+  setIssues,
+  clearError,
 }

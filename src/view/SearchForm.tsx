@@ -39,16 +39,17 @@ const SearchForm: React.FC = () => {
     const r = normalizeString(repo)
     dispatch(setUsernameAction(u))
     dispatch(setRepoAction(r))
-    dispatch({
-      type: FETCH_ISSUES,
-      payload: {
-        username: u,
-        repo: r,
-        options: {
-          perPage,
-        },
-      },
-    })
+    dispatch(fetchIssues())
+    // dispatch({
+    //   type: FETCH_ISSUES,
+    //   payload: {
+    //     username: u,
+    //     repo: r,
+    //     options: {
+    //       perPage,
+    //     },
+    //   },
+    // })
     // dispatch(fetchIssues(u, r, { perPage }))
   }
 

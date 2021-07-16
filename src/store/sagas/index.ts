@@ -1,87 +1,63 @@
-import { take, put, takeEvery, takeLatest, call } from 'redux-saga/effects'
-import { getQueryString } from '../../domains/issues'
-import { IIssueItem } from '../../interfaces/issues'
-import { FetchIssuesOptionsType } from '../../interfaces/requests'
+import { take, put, takeEvery, takeLatest, call, all } from 'redux-saga/effects'
+import { Api } from '../../domains/api'
+import store from '..'
+// import { getQueryString } from '../../domains/issues'
+// import { IIssueItem } from '../../interfaces/issues'
+// import { FetchIssuesOptionsType } from '../../interfaces/requests'
+import { clearError, endLoading, setIssues, startLoading } from '../actions'
 import { FETCH_ISSUES, SET_ISSUES } from '../types'
 
-const API_URL_ORIGIN: string = 'https://api.github.com'
-
 export type watcherType = Generator
-
-const fetchIssues = async (
-  username: string,
-  repo: string,
-  options?: FetchIssuesOptionsType
-) => {
-  let urlString: string = `${API_URL_ORIGIN}/repos/${username}/${repo}/issues`
-  if (options) urlString += getQueryString(options)
-  const response = await fetch(urlString)
-  const data = await response.json()
-
-  const formattedData = data.map((item: { [key: string]: string }) => ({
-    title: item['title'],
-    url: item['html_url'],
-    number: item['number'],
-    createdAt: item['created_at'],
-  }))
-  // console.log(formattedData)
-  return formattedData
-  // return data
-}
 
 // const fetchIssues = async (
 //   username: string,
 //   repo: string,
 //   options?: FetchIssuesOptionsType
 // ) => {
-//   let urlString: string = `${API_URL_ORIGIN}/repos/${username}/${repo}/issues`
+//   let urlString: string = `${API}/repos/${username}/${repo}/issues`
 //   if (options) urlString += getQueryString(options)
-//   try {
-//     // dispatch(clearError())
-//     // dispatch(startLoading())
-//     // const totalCount = await getIssuesCount(username, repo)
-//     // dispatch(setCount(totalCount))
+//   const response = await fetch(urlString)
+//   const data = await response.json()
 
-//     const response = await fetch(urlString)
-//     const data = await response.json()
-//     // if (data && data.message && data.message.toLowerCase() === 'not found') {
-//     //   alertHandler.showAlert({
-//     //     type: 'error',
-//     //     msg: 'Неверный логин и/или репозиторий',
-//     //   })
-//     // }
-
-//     const formattedData = data.map((item: { [key: string]: string }) => ({
+//   return data.map(
+//     (item: { [key: string]: string }): IIssueItem => ({
 //       title: item['title'],
 //       url: item['html_url'],
 //       number: item['number'],
 //       createdAt: item['created_at'],
-//     }))
-//     // console.log(formattedData)
-//     return formattedData
-
-//     // dispatch({ type: FETCH_ISSUES, payload: formattedData })
-//   } catch (e) {
-//     console.error(e)
-//     // dispatch(showError(e))
-//   } finally {
-//     // dispatch(endLoading())
-//   }
+//     })
+//   )
 // }
+const API = process.env.REACT_APP_API || ''
 
-export function* workerSaga(): Generator {
-  const data = yield call(fetchIssues, 'nolimits4web', 'swiper')
-  yield put({ type: SET_ISSUES, payload: data })
-  console.log(data)
+const api = new Api(API)
+
+export function* workerFetchSaga(): Generator {
+  const [u, r] = [
+    store.getState().issues.username,
+    store.getState().issues.repo,
+  ]
+  try {
+    yield put(clearError())
+    yield put(startLoading())
+
+    const list = yield call(api.fetchIssues, u, r)
+    yield put({ type: SET_ISSUES, payload: list })
+    console.log(list)
+  } catch (e) {
+    console.error(e)
+  } finally {
+    yield put(endLoading())
+  }
 }
 
-export function* watchFetchSaga(): watcherType {
-  yield takeLatest(FETCH_ISSUES, workerSaga)
-  console.log('log after fetching')
+export function* watcherFetchSaga(): watcherType {
+  yield takeLatest(FETCH_ISSUES, workerFetchSaga)
 }
 
 function* rootSaga() {
-  yield watchFetchSaga()
+  yield all([watcherFetchSaga()])
+  // yield watcherFetchSaga()
 }
 
 export default rootSaga
