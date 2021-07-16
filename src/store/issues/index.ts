@@ -1,0 +1,52 @@
+import { IIssuesList } from '../../interfaces/issues'
+import { ActionType } from '../actions'
+// import {
+//   CLEAR_ERROR,
+//   FETCH_ISSUES,
+//   LOADING_END,
+//   LOADING_START,
+//   SET_COUNT,
+//   SET_ISSUES,
+//   SET_PAGE,
+//   SET_REPO,
+//   SET_USERNAME,
+//   SHOW_ERROR,
+// } from '../types'
+
+import { ISSUES } from '../types'
+
+const initialState: IIssuesList = {
+  loading: false,
+  list: null,
+  error: null,
+  totalCount: null,
+  username: '',
+  repo: '',
+  page: null,
+  // perPage: 10,
+}
+
+export const issuesReducer = (state = initialState, action: ActionType) => {
+  switch (action.type) {
+    case ISSUES.SET_USERNAME:
+      return { ...state, username: action.payload }
+    case ISSUES.SET_REPO:
+      return { ...state, repo: action.payload }
+    case ISSUES.SET_ISSUES:
+      return { ...state, list: action.payload }
+    case ISSUES.LOADING_START:
+      return { ...state, loading: true }
+    case ISSUES.LOADING_END:
+      return { ...state, loading: false }
+    // case ISSUES.SHOW_ERROR:
+    //   return { ...state, error: action.payload }
+    // case ISSUES.CLEAR_ERROR:
+    //   return { ...state, error: null }
+    case ISSUES.SET_COUNT:
+      return { ...state, totalCount: action.payload }
+    case ISSUES.SET_PAGE:
+      return { ...state, page: action.payload }
+    default:
+      return state
+  }
+}

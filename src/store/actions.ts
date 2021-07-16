@@ -1,92 +1,93 @@
-// import { FetchIssuesOptionsType } from '../interfaces/requests'
-// import { IssuesOptionsType } from '../interfaces/api'
 import { Dispatch } from 'redux'
-import {
-  CLEAR_ERROR,
-  FETCH_ISSUES,
-  LOADING_END,
-  LOADING_START,
-  SET_COUNT,
-  SET_ISSUES,
-  SET_PAGE,
-  SET_REPO,
-  SET_USERNAME,
-  SHOW_ERROR,
-} from './types'
-import { IssuesActionType } from './issues'
-// import { getIssuesCount, getQueryString } from '../domains/issues'
-// import { showDataNotFound } from '../domains/alert'
-// import { alertHandler } from '../modules/alert'
+// import {
+//   CLEAR_ERROR,
+//   FETCH_ISSUES,
+//   LOADING_END,
+//   LOADING_START,
+//   SET_COUNT,
+//   SET_ISSUES,
+//   SET_PAGE,
+//   SET_REPO,
+//   SET_USERNAME,
+//   SHOW_ERROR,
+// } from './types'
+import { ISSUES } from './types'
+
 import store from '.'
-import { IssuesListType } from '../interfaces/issues'
+import { IIssuesList } from '../interfaces/issues'
 
 export type FetchIssuesType = Dispatch
 
-const setUsername = (username: string): IssuesActionType => {
+export type ActionType = {
+  type: string
+  payload?: any
+}
+
+const setUsername = (username: string): ActionType => {
   return {
-    type: SET_USERNAME,
+    type: ISSUES.SET_USERNAME,
     payload: username,
   }
 }
 
-const setRepo = (repo: string): IssuesActionType => {
+const setRepo = (repo: string): ActionType => {
   return {
-    type: SET_REPO,
+    type: ISSUES.SET_REPO,
     payload: repo,
   }
 }
 
-const startLoading = (): IssuesActionType => {
+const startLoading = (): ActionType => {
   return {
-    type: LOADING_START,
+    type: ISSUES.LOADING_START,
   }
 }
 
-const endLoading = (): IssuesActionType => {
+const endLoading = (): ActionType => {
   return {
-    type: LOADING_END,
+    type: ISSUES.LOADING_END,
   }
 }
 
-const showError = (err: string): IssuesActionType => {
-  // return (dispatch: FetchIssuesType) => {
-  //   dispatch<IssuesActionType>({ type: SHOW_ERROR, payload: err })
-  // }
-  return {
-    type: SHOW_ERROR,
-    payload: err,
-  }
-}
+// const showError = (err: string): ActionType => {
+//   // return (dispatch: FetchIssuesType) => {
+//   //   dispatch<IssuesActionType>({ type: ISSUES.SHOW_ERROR, payload: err })
+//   // }
+//   return {
+//     type: ISSUES.SHOW_ERROR,
+//     payload: err,
+//   }
+// }
 
-const clearError = (): IssuesActionType => {
-  return {
-    type: CLEAR_ERROR,
-  }
-}
+// const clearError = (): ActionType => {
+//   return {
+//     type: ISSUES.CLEAR_ERROR,
+//   }
+// }
 
-const setCount = (count: number): IssuesActionType => {
+const setCount = (count: number): ActionType => {
   return {
-    type: SET_COUNT,
+    type: ISSUES.SET_COUNT,
     payload: count,
   }
 }
 
-const setPage = (page: number): IssuesActionType => {
+const setPage = (page: number): ActionType => {
   return {
-    type: SET_PAGE,
+    type: ISSUES.SET_PAGE,
     payload: page,
   }
 }
 
-const fetchIssues = (): IssuesActionType => {
+const fetchIssues = (): ActionType => {
   return {
-    type: FETCH_ISSUES,
+    type: ISSUES.FETCH_ISSUES,
   }
 }
 
-const setIssues = (list: IssuesListType | null): IssuesActionType => {
+const setIssues = (list: IIssuesList | null): ActionType => {
   return {
-    type: SET_ISSUES,
+    type: ISSUES.SET_ISSUES,
     payload: list,
   }
 }
@@ -101,7 +102,7 @@ const changePage = (page: number) => {
     // dispatch({ type: FETCH_ISSUES, payload: {} })
     // dispatch(fetchIssues<IssuesActionType>(u, r, { page: page }))
 
-    dispatch({ type: SET_PAGE, payload: page })
+    dispatch({ type: ISSUES.SET_PAGE, payload: page })
   }
 }
 
@@ -113,5 +114,5 @@ export {
   setUsername,
   changePage,
   setIssues,
-  clearError,
+  // clearError,
 }

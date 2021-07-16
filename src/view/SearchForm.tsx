@@ -8,7 +8,7 @@ import {
   setRepo as setRepoAction,
   fetchIssues,
 } from '../store/actions'
-import { FETCH_ISSUES } from '../store/types'
+import { ISSUES } from '../store/types'
 
 const SearchForm: React.FC = () => {
   const [username, setUsername] = useState('')
@@ -41,7 +41,7 @@ const SearchForm: React.FC = () => {
     dispatch(setRepoAction(r))
     dispatch(fetchIssues())
     // dispatch({
-    //   type: FETCH_ISSUES,
+    //   type: ISSUES.FETCH_ISSUES,
     //   payload: {
     //     username: u,
     //     repo: r,

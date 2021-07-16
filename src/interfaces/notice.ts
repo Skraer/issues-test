@@ -1,10 +1,10 @@
-export type alertType = 'error' | 'warning' | 'success'
+export type AlertType = 'error' | 'warning' | 'success'
 
-export type alertMsgType = {
-  type: alertType
+export type AlertMsgType = {
+  type: AlertType
   text?: string
 }
-export type alertMsgTypes = alertMsgType | null | undefined
+export type AlertMsgTypes = AlertMsgType | null | undefined
 
 // export type alertHandlerType = {
 //   show: (msg: msgType) => void
@@ -15,10 +15,10 @@ export type alertMsgTypes = alertMsgType | null | undefined
 
 export interface IAlertHandler {
   // handler: alertHandlerType
-  showAlert(msg: alertMsgType): void
+  showAlert(msg: AlertMsgType): void
   clearLast(): void
   showLast(): void
-  lastMsg: alertMsgTypes
+  lastMsg: AlertMsgTypes
   // showLastAlert(): void
   // lastMsg?: msgType | undefined | null
 

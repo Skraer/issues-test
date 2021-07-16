@@ -5,7 +5,7 @@ export interface IIssueItem {
   url: string
 }
 
-export interface IssuesListType {
+export interface IIssuesList {
   list: IIssueItem[] | null
   loading: boolean
   error: null | string
@@ -17,5 +17,5 @@ export interface IssuesListType {
 }
 
 export interface DefaultIssuesState {
-  issues: IssuesListType
+  issues: IIssuesList
 }
