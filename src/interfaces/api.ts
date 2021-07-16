@@ -6,15 +6,6 @@ export type IssuesOptionsType = {
   state?: 'open' | 'closed' | 'all'
 }
 
-// export type ApiHandlerType = {
-//   url: string
-//   fetchIssues<T>(
-//     username: string,
-//     repo: string,
-//     options?: IssuesOptionsType
-//   ): Promise<T>
-// }
-
 export interface IApi {
   url: string
   fetchIssues<T>(

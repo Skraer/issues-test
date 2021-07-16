@@ -16,7 +16,7 @@ import {
 import { IssuesActionType } from './issues'
 // import { getIssuesCount, getQueryString } from '../domains/issues'
 // import { showDataNotFound } from '../domains/alert'
-import { alertHandler } from '../modules/alert'
+// import { alertHandler } from '../modules/alert'
 import store from '.'
 import { IssuesListType } from '../interfaces/issues'
 
@@ -90,45 +90,6 @@ const setIssues = (list: IssuesListType | null): IssuesActionType => {
     payload: list,
   }
 }
-
-// const fetchIssues = (
-//   username: string,
-//   repo: string,
-//   options?: FetchIssuesOptionsType
-// ) => {
-//   return async (dispatch: FetchIssuesType) => {
-//     let urlString: string = `${API_URL}/repos/${username}/${repo}/issues`
-//     if (options) urlString += getQueryString(options)
-//     try {
-//       dispatch(clearError())
-//       dispatch(startLoading())
-//       const totalCount = await getIssuesCount(username, repo)
-//       dispatch(setCount(totalCount))
-
-//       const response = await fetch(urlString)
-//       const data = await response.json()
-//       if (data && data.message && data.message.toLowerCase() === 'not found') {
-//         alertHandler.showAlert({
-//           type: 'error',
-//           msg: 'Неверный логин и/или репозиторий',
-//         })
-//       }
-
-//       const formattedData = data.map((item: { [key: string]: string }) => ({
-//         title: item['title'],
-//         url: item['html_url'],
-//         number: item['number'],
-//         createdAt: item['created_at'],
-//       }))
-//       dispatch({ type: FETCH_ISSUES, payload: formattedData })
-//     } catch (e) {
-//       console.error(e)
-//       dispatch(showError(e))
-//     } finally {
-//       dispatch(endLoading())
-//     }
-//   }
-// }
 
 const changePage = (page: number) => {
   return (dispatch: Dispatch) => {
