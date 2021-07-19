@@ -1,1 +1,1 @@
-import { ActionType } from '../actions'
+import { ActionType } from '../index'

@@ -7,7 +7,7 @@ import {
   setUsername as setUsernameAction,
   setRepo as setRepoAction,
   fetchIssues,
-} from '../store/actions'
+} from '../store/issues/actions'
 import { ISSUES } from '../store/types'
 
 const SearchForm: React.FC = () => {

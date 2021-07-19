@@ -1,19 +1,10 @@
 import { IIssuesList } from '../../interfaces/issues'
-import { ActionType } from '../actions'
-// import {
-//   CLEAR_ERROR,
-//   FETCH_ISSUES,
-//   LOADING_END,
-//   LOADING_START,
-//   SET_COUNT,
-//   SET_ISSUES,
-//   SET_PAGE,
-//   SET_REPO,
-//   SET_USERNAME,
-//   SHOW_ERROR,
-// } from '../types'
+import { ActionType } from '..'
+// import { Dispatch } from 'redux'
 
 import { ISSUES } from '../types'
+
+// export type FetchIssuesType = Dispatch
 
 const initialState: IIssuesList = {
   loading: false,
@@ -26,7 +17,7 @@ const initialState: IIssuesList = {
   // perPage: 10,
 }
 
-export const issuesReducer = (state = initialState, action: ActionType) => {
+const issuesReducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
     case ISSUES.SET_USERNAME:
       return { ...state, username: action.payload }
@@ -50,3 +41,5 @@ export const issuesReducer = (state = initialState, action: ActionType) => {
       return state
   }
 }
+
+export { issuesReducer }
