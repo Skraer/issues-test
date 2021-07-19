@@ -1,9 +1,9 @@
 import { IIssueItem } from './issues'
 
 export type IssuesOptionsType = {
-  perPage?: number | string
-  page?: number | string
-  state?: 'open' | 'closed' | 'all'
+  perPage: number | string
+  page: number | string
+  state: 'open' | 'closed' | 'all'
 }
 
 export interface IApi {

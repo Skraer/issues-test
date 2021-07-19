@@ -1,10 +1,8 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux'
+import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { issuesReducer } from './issues/index'
 import createSagaMiddleware from 'redux-saga'
-// import rootSaga from './sagas'
 import { all, takeEvery } from 'redux-saga/effects'
-// import { watcherFetchSaga } from './issues/actions'
-import { fetchIssuesSaga } from './issues/actions'
+import { fetchIssuesCountSaga, fetchIssuesSaga } from './issues/sagas'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { ISSUES } from './types'
 
@@ -20,9 +18,10 @@ const rootReducer = combineReducers({
 })
 
 function* sagas() {
-  // yield all([watcherFetchSaga])
-  yield all([takeEvery(ISSUES.FETCH_ISSUES, fetchIssuesSaga)])
-  // yield watcherFetchSaga()
+  yield all([
+    takeEvery(ISSUES.FETCH_ISSUES, fetchIssuesSaga),
+    takeEvery(ISSUES.FETCH_COUNT, fetchIssuesCountSaga),
+  ])
 }
 
 const store = createStore(

@@ -5,14 +5,12 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Provider } from 'react-redux'
 import store from './store/index'
-// import { Router, Route, Switch, match } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App />
+    {/* <Route path="/details"></Route> */}
+  </Provider>,
   document.getElementById('root')
 )
 

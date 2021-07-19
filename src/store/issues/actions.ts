@@ -1,86 +1,74 @@
-import { Dispatch } from 'redux'
-import { call, put, take, takeEvery } from 'redux-saga/effects'
-
-import store, { ActionType } from '..'
-import { Api } from '../../domains/api'
+import { ActionType } from '..'
+import { IssuesOptionsType } from '../../interfaces/api'
 import { IIssuesList } from '../../interfaces/issues'
 import { ISSUES } from '../types'
 
-// export type FetchIssuesType = Dispatch
-
-// export type watcherType = Generator
-
-const API_URL = process.env.REACT_APP_API || ''
-
-const api = new Api(API_URL)
-
-const setUsername = (username: string): ActionType => {
+export const setUsername = (username: string): ActionType => {
   return {
     type: ISSUES.SET_USERNAME,
     payload: username,
   }
 }
 
-const setRepo = (repo: string): ActionType => {
+export const setRepo = (repo: string): ActionType => {
   return {
     type: ISSUES.SET_REPO,
     payload: repo,
   }
 }
 
-const startLoading = (): ActionType => {
+export const startLoading = (): ActionType => {
   return {
     type: ISSUES.LOADING_START,
   }
 }
 
-const endLoading = (): ActionType => {
+export const endLoading = (): ActionType => {
   return {
     type: ISSUES.LOADING_END,
   }
 }
 
-const setCount = (count: number): ActionType => {
+export const setCount = (count: number): ActionType => {
   return {
     type: ISSUES.SET_COUNT,
     payload: count,
   }
 }
 
-const setPage = (page: number): ActionType => {
+export const fetchCount = (): ActionType => {
+  return {
+    type: ISSUES.FETCH_COUNT,
+  }
+}
+
+export const setPage = (page: number): ActionType => {
   return {
     type: ISSUES.SET_PAGE,
     payload: page,
   }
 }
 
-const fetchIssues = (): ActionType => {
+export const fetchIssues = (): ActionType => {
   return {
     type: ISSUES.FETCH_ISSUES,
   }
 }
 
-const setIssues = (list: IIssuesList | null): ActionType => {
+export const setIssues = (list: IIssuesList | null): ActionType => {
   return {
     type: ISSUES.SET_ISSUES,
     payload: list,
   }
 }
 
-function* fetchIssuesSaga(): Generator {
-  console.log(true)
-
-  const [u, r] = [
-    store.getState().issues.username,
-    store.getState().issues.repo,
-  ]
-
-  yield put(startLoading())
-
-  const list = yield call(api.fetchIssues, u, r)
-  yield put({ type: ISSUES.SET_ISSUES, payload: list })
-  console.log(list)
-  yield put(endLoading())
+export const setOptions = (
+  options: IssuesOptionsType | null | undefined
+): ActionType => {
+  return {
+    type: ISSUES.SET_OPTIONS,
+    payload: options,
+  }
 }
 
 // function* watcherFetchSaga(): Generator {
@@ -102,15 +90,16 @@ function* fetchIssuesSaga(): Generator {
 //   }
 // }
 
-export {
-  setUsername,
-  setRepo,
-  startLoading,
-  endLoading,
-  setCount,
-  setPage,
-  fetchIssues,
-  setIssues,
-  fetchIssuesSaga,
-  // watcherFetchSaga,
-}
+// export {
+//   setUsername,
+//   setRepo,
+//   startLoading,
+//   endLoading,
+//   setCount,
+//   setPage,
+//   fetchIssues,
+//   setIssues,
+//   setOptions,
+//   fetchCount,
+//   // watcherFetchSaga,
+// }

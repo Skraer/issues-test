@@ -1,0 +1,124 @@
+.issue-list {
+  /* max-width: 900px; */
+  /* width: 100%; */
+  /* margin: 0 auto; */
+  margin-bottom: 20px;
+}
+
+.issue-item {
+  border: 1px solid rgba(204, 204, 204, 0.7);
+  box-shadow: 0 0 3px 2px #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* align-items: flex-start; */
+  /* flex-direction: column; */
+}
+.issue-item + .issue-item {
+  margin-top: 20px;
+}
+.issue-item a:hover {
+  text-decoration: underline;
+}
+/* .issue-item_box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.issue-item_box:first-child {
+  flex-basis: 70%;
+} */
+
+.issue-item_main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+
+.issue-item_user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 60px;
+}
+.issue-item_user-avatar {
+  max-width: 100px;
+  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1em;
+}
+.issue-item_user-avatar img {}
+.issue-item_user-link {
+  text-align: center;
+  color: cornflowerblue;
+}
+.issue-item_title {
+  max-width: 500px;
+  width: 100%;
+  font-weight: normal;
+}
+.issue-item_more {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+  font-size: 20px;
+  position: relative;
+  padding-right: 2em;
+}
+.issue-item_more::before,
+.issue-item_more::after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 10%;
+  background-color: #000;
+  right: 0;
+  top: calc(50%);
+  transform-origin: right center;
+}
+.issue-item_more::before {
+  transform: rotate(30deg);
+}
+.issue-item_more::after {
+  transform: rotate(-30deg);
+}
+.issue-item_footer {
+  display: flex;
+  justify-content: flex-start;
+}
+.issue-item_footer span + span {
+  margin-left: 20px;
+}
+.issue-item_date {}
+.issue-item_number {}
+
+
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+.pagination li {
+  border: 1px solid #ccc;
+  box-shadow: 0 0 3px 1px rgba(204, 204, 204, 0.7);
+  border-radius: 4px;
+  background-color: #fff;
+}
+.pagination li.active {
+  background-color: rgba(204, 204, 204, 0.8);
+}
+.pagination li:hover {
+  background-color: rgba(204, 204, 204, 0.5);
+}
+.pagination a {
+  display: inline-block;
+  padding: 10px 15px;
+}

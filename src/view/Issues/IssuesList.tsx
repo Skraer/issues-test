@@ -1,43 +1,57 @@
 import React from 'react'
+import './issues.css'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DefaultIssuesState } from '../../interfaces/issues'
-import { StatusBar } from '../StatusBar'
+import { fetchIssues, setOptions } from '../../store/issues/actions'
 import { IssueItem } from './IssueItem'
 import { Pagination } from './Pagination'
 
 const IssuesList: React.FC = () => {
-  const issues = useSelector((state: DefaultIssuesState) => state.issues)
+  const { list, totalCount, loading, options } = useSelector(
+    (state: DefaultIssuesState) => state.issues
+  )
   const [currentPage, setCurrentPage] = useState(1)
+  const [needPagination, setNeedPagination] = useState(false)
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   console.log(currentPage)
-  // }, [currentPage])
+  useEffect(() => {
+    if (list?.length) changePage()
+  }, [currentPage])
 
-  const fetchPage = (page: number): void => {}
+  useEffect(() => {
+    if (list && totalCount && totalCount > 10) setNeedPagination(true)
+    else setNeedPagination(false)
+  }, [totalCount, list])
 
-  const empty = <p className="text-center">Здесь данных нет :(</p>
+  const changePage = (): void => {
+    dispatch(setOptions({ ...options, page: currentPage }))
+    dispatch(fetchIssues())
+    console.log(currentPage)
+  }
 
-  const needPagination =
-    issues.list && issues.totalCount && issues.totalCount > 10
+  const emptyComponent = <p className="text-center">Здесь данных нет :(</p>
+  const loadingComponent = <p className="text-center">Загрузка...</p>
+  const noIssuesComponent = (
+    <p className="text-center">У этого репозитория нет ни одного обращения</p>
+  )
 
   return (
     <div className="container-medium">
       <div className="issue-list">
-        {issues.list ? (
-          issues.list.map((item) => <IssueItem {...item} key={item.number} />)
-        ) : issues.loading ? (
-          <p className="text-center">Загрузка...</p>
-        ) : (
-          empty
-        )}
+        {loading
+          ? loadingComponent
+          : !list
+          ? emptyComponent
+          : list.length
+          ? list.map((item) => <IssueItem {...item} key={item.number} />)
+          : noIssuesComponent}
       </div>
       {needPagination && (
         <Pagination
-          amountElems={issues.totalCount}
-          perPage={10}
+          amountElems={totalCount}
+          perPage={+options.perPage}
           onChange={(page) => {
             setCurrentPage(page)
           }}

@@ -3,8 +3,15 @@ import { ActionType } from '..'
 // import { Dispatch } from 'redux'
 
 import { ISSUES } from '../types'
+import { IssuesOptionsType } from '../../interfaces/api'
 
 // export type FetchIssuesType = Dispatch
+
+const initialOptions: IssuesOptionsType = {
+  perPage: '10',
+  page: 1,
+  state: 'open',
+}
 
 const initialState: IIssuesList = {
   loading: false,
@@ -14,6 +21,7 @@ const initialState: IIssuesList = {
   username: '',
   repo: '',
   page: null,
+  options: initialOptions,
   // perPage: 10,
 }
 
@@ -29,14 +37,12 @@ const issuesReducer = (state = initialState, action: ActionType) => {
       return { ...state, loading: true }
     case ISSUES.LOADING_END:
       return { ...state, loading: false }
-    // case ISSUES.SHOW_ERROR:
-    //   return { ...state, error: action.payload }
-    // case ISSUES.CLEAR_ERROR:
-    //   return { ...state, error: null }
     case ISSUES.SET_COUNT:
       return { ...state, totalCount: action.payload }
     case ISSUES.SET_PAGE:
       return { ...state, page: action.payload }
+    case ISSUES.SET_OPTIONS:
+      return { ...state, options: action.payload }
     default:
       return state
   }

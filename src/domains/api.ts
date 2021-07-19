@@ -5,6 +5,10 @@ import { IIssueItem } from '../interfaces/issues'
 
 // const API = process.env.REACT_APP_API
 
+// type parsedDataItemType = {
+//   [key: string]: string | {[key: string]: any}
+// }
+
 export class Api implements IApi {
   constructor(private _url: string) {}
   get url(): string {
@@ -21,34 +25,48 @@ export class Api implements IApi {
     const data = await response.json()
 
     // return this.getFormattedData(data)
+    // console.log(data)
 
     // TODO исправить на вызов метода
+
     return data.map(
-      (item: { [key: string]: string }): IIssueItem => ({
+      (item: { [key: string]: any }): IIssueItem => ({
         title: item['title'],
         url: item['html_url'],
         number: item['number'],
         createdAt: item['created_at'],
+        body: item['body'],
+        user: {
+          avatar: item['user']['avatar_url'],
+          username: item['user']['login'],
+        },
       })
     )
   }
 
   getFormattedData = (data: []): IIssueItem[] => {
     return data.map(
-      (item: { [key: string]: string }): IIssueItem => ({
+      (item: { [key: string]: any }): IIssueItem => ({
         title: item['title'],
         url: item['html_url'],
         number: item['number'],
         createdAt: item['created_at'],
+        body: item['body'],
+        user: {
+          avatar: item['user']['avatar_url'],
+          username: item['user']['login'],
+        },
       })
     )
   }
   getIssuesCount = async (username: string, repo: string, state?: string) => {
     state = state || 'open'
-    const reponse = await fetch(
+    const response = await fetch(
       `${this.url}/search/issues?q=repo:${username}/${repo}%20is:issue+state:${state}`
     )
-    return await reponse.json().then((r) => r['total_count'])
+    const count = await response.json()
+    return count['total_count']
+    // return await reponse.json().then((r) => r['total_count'])
   }
   getQueryString = (options: IssuesOptionsType) => {
     let str = '?'

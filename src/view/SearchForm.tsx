@@ -2,55 +2,61 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DefaultIssuesState } from '../interfaces/issues'
+// import store from '../store'
 import {
-  // fetchIssues,
-  setUsername as setUsernameAction,
-  setRepo as setRepoAction,
+  setUsername,
+  setRepo,
   fetchIssues,
+  setOptions,
+  fetchCount,
 } from '../store/issues/actions'
-import { ISSUES } from '../store/types'
 
 const SearchForm: React.FC = () => {
-  const [username, setUsername] = useState('')
-  const [repo, setRepo] = useState('')
-  const [perPage, setPerPage] = useState(10)
-
-  const loading = useSelector(
-    (state: DefaultIssuesState) => state.issues.loading
-  )
-
+  const issues = useSelector((state: DefaultIssuesState) => state.issues)
+  const [userData, setUserData] = useState({
+    username: issues.username,
+    repo: issues.repo,
+  })
+  const [perPage, setPerPage] = useState('10')
   const dispatch = useDispatch()
 
   const normalizeString = (str: string): string => str.trim().toLowerCase()
 
-  const usernameChangeHandler = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    setUsername(e.target.value)
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const name: string = e.target.getAttribute('name') || '' //FIXME костыль
+    setUserData({
+      ...userData,
+      [name]: e.target.value,
+    })
   }
 
-  const repoChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setRepo(e.target.value)
+  const perPageChangeHandler = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    setPerPage((prev: string | number) =>
+      prev === e.target.value ? prev : e.target.value
+    )
   }
+
+  useEffect(() => {
+    if (issues.list && issues.list.length) {
+      fetchData()
+    }
+  }, [perPage])
 
   const userSearchSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    const u = normalizeString(username)
-    const r = normalizeString(repo)
-    dispatch(setUsernameAction(u))
-    dispatch(setRepoAction(r))
+    fetchData()
+  }
+
+  const fetchData = (): void => {
+    const u = normalizeString(userData.username)
+    const r = normalizeString(userData.repo)
+    dispatch(setUsername(u))
+    dispatch(setRepo(r))
+    dispatch(setOptions({ ...issues.options, perPage: perPage }))
     dispatch(fetchIssues())
-    // dispatch({
-    //   type: ISSUES.FETCH_ISSUES,
-    //   payload: {
-    //     username: u,
-    //     repo: r,
-    //     options: {
-    //       perPage,
-    //     },
-    //   },
-    // })
-    // dispatch(fetchIssues(u, r, { perPage }))
+    dispatch(fetchCount())
   }
 
   return (
@@ -62,9 +68,9 @@ const SearchForm: React.FC = () => {
             <input
               type="text"
               name="username"
-              value={username}
-              onChange={usernameChangeHandler}
-              disabled={loading}
+              value={userData.username}
+              onChange={changeHandler}
+              disabled={issues.loading}
             />
           </label>
           <label className="input-field">
@@ -72,24 +78,19 @@ const SearchForm: React.FC = () => {
             <input
               type="text"
               name="repo"
-              value={repo}
-              onChange={repoChangeHandler}
-              disabled={loading}
+              value={userData.repo}
+              onChange={changeHandler}
+              disabled={issues.loading}
             />
           </label>
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={issues.loading}>
             Поиск
           </button>
         </div>
         <div className="input-field select-field">
           <label>
             <span>Количество отображаемых обращений</span>
-            <select
-              value={perPage}
-              onChange={(e) => {
-                setPerPage(+e.target.value)
-              }}
-            >
+            <select value={perPage} onChange={perPageChangeHandler}>
               <option value="10">10</option>
               <option value="30">30</option>
               <option value="50">50</option>
