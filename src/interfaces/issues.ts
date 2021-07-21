@@ -1,12 +1,18 @@
 import { IssuesOptionsType } from './api'
 
+export interface IIssueUser {
+  avatar: string
+  username: string
+  url: string
+}
+
 export interface IIssueItem {
   title: string
   number: string | number
   createdAt: string
   url: string
   body: string
-  user: { avatar: string; username: string }
+  user: IIssueUser
   // avatarUrl: string
 }
 

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import './search-form.css'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { DefaultIssuesState } from '../interfaces/issues'
+import { DefaultIssuesState } from '../../interfaces/issues'
 // import store from '../store'
 import {
   setUsername,
@@ -9,7 +10,7 @@ import {
   fetchIssues,
   setOptions,
   fetchCount,
-} from '../store/issues/actions'
+} from '../../store/issues/actions'
 
 const SearchForm: React.FC = () => {
   const issues = useSelector((state: DefaultIssuesState) => state.issues)
@@ -17,32 +18,31 @@ const SearchForm: React.FC = () => {
     username: issues.username,
     repo: issues.repo,
   })
-  const [perPage, setPerPage] = useState('10')
   const dispatch = useDispatch()
 
   const normalizeString = (str: string): string => str.trim().toLowerCase()
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const name: string = e.target.getAttribute('name') || '' //FIXME костыль
     setUserData({
       ...userData,
-      [name]: e.target.value,
+      [e.target.getAttribute('name')!.toString()]: e.target.value,
     })
   }
 
   const perPageChangeHandler = (
     e: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    setPerPage((prev: string | number) =>
-      prev === e.target.value ? prev : e.target.value
+    dispatch(
+      setOptions({
+        ...issues.options,
+        perPage: +e.target.value,
+      })
     )
-  }
-
-  useEffect(() => {
     if (issues.list && issues.list.length) {
       fetchData()
+      console.log('perpage changed')
     }
-  }, [perPage])
+  }
 
   const userSearchSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
@@ -54,7 +54,6 @@ const SearchForm: React.FC = () => {
     const r = normalizeString(userData.repo)
     dispatch(setUsername(u))
     dispatch(setRepo(r))
-    dispatch(setOptions({ ...issues.options, perPage: perPage }))
     dispatch(fetchIssues())
     dispatch(fetchCount())
   }
@@ -63,26 +62,36 @@ const SearchForm: React.FC = () => {
     <div className="search-form">
       <form onSubmit={userSearchSubmit}>
         <div className="col">
-          <label className="input-field">
-            <span>Введите логин пользователя: </span>
-            <input
-              type="text"
-              name="username"
-              value={userData.username}
-              onChange={changeHandler}
-              disabled={issues.loading}
-            />
-          </label>
-          <label className="input-field">
-            <span>Введите название репозитория: </span>
-            <input
-              type="text"
-              name="repo"
-              value={userData.repo}
-              onChange={changeHandler}
-              disabled={issues.loading}
-            />
-          </label>
+          <div className="input-field">
+            <label>
+              <span>Введите логин пользователя: </span>
+              <input
+                type="text"
+                name="username"
+                value={userData.username}
+                onChange={changeHandler}
+                disabled={issues.loading}
+              />
+            </label>
+            <button name="confirm-username" type="button">
+              Ок
+            </button>
+          </div>
+          <div className="input-field">
+            <label>
+              <span>Введите название репозитория: </span>
+              <input
+                type="text"
+                name="repo"
+                value={userData.repo}
+                onChange={changeHandler}
+                disabled={issues.loading}
+              />
+            </label>
+            <button name="confirm-repo" type="button">
+              Ок
+            </button>
+          </div>
           <button type="submit" disabled={issues.loading}>
             Поиск
           </button>
@@ -90,7 +99,10 @@ const SearchForm: React.FC = () => {
         <div className="input-field select-field">
           <label>
             <span>Количество отображаемых обращений</span>
-            <select value={perPage} onChange={perPageChangeHandler}>
+            <select
+              value={issues.options.perPage}
+              onChange={perPageChangeHandler}
+            >
               <option value="10">10</option>
               <option value="30">30</option>
               <option value="50">50</option>

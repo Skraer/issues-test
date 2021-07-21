@@ -24,8 +24,11 @@ export class Api implements IApi {
     const response = await fetch(urlString)
     const data = await response.json()
 
-    // return this.getFormattedData(data)
-    // console.log(data)
+    console.log(data)
+
+    if (!response.ok) {
+      throw new Error(data.message)
+    }
 
     // TODO исправить на вызов метода
 
@@ -39,26 +42,29 @@ export class Api implements IApi {
         user: {
           avatar: item['user']['avatar_url'],
           username: item['user']['login'],
+          url: item['user']['html_url'],
         },
       })
     )
   }
 
-  getFormattedData = (data: []): IIssueItem[] => {
-    return data.map(
-      (item: { [key: string]: any }): IIssueItem => ({
-        title: item['title'],
-        url: item['html_url'],
-        number: item['number'],
-        createdAt: item['created_at'],
-        body: item['body'],
-        user: {
-          avatar: item['user']['avatar_url'],
-          username: item['user']['login'],
-        },
-      })
-    )
-  }
+  // getFormattedData = (data: []): IIssueItem[] => {
+  //   return data.map(
+  //     (item: { [key: string]: any }): IIssueItem => ({
+  //       title: item['title'],
+  //       url: item['html_url'],
+  //       number: item['number'],
+  //       createdAt: item['created_at'],
+  //       body: item['body'],
+  //       user: {
+  //         avatar: item['user']['avatar_url'],
+  //         username: item['user']['login'],
+  //         url: item['user']['html_url']
+  //       },
+  //     })
+  //   )
+  // }
+
   getIssuesCount = async (username: string, repo: string, state?: string) => {
     state = state || 'open'
     const response = await fetch(
@@ -75,5 +81,13 @@ export class Api implements IApi {
     if (options.state) str += `state=${options.state}&`
     str = str.slice(0, str.length - 1)
     return str
+  }
+  // временно не используется
+  fromSnakeToCamel = (snake: string): string => {
+    const arr = snake.split('_')
+    for (let i = 1; i < arr.length; i++) {
+      arr[i] = arr[i].slice(0, 1).toUpperCase() + arr[i].slice(1).toLowerCase()
+    }
+    return arr.join('')
   }
 }

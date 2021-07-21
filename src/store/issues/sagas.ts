@@ -22,6 +22,7 @@ function* fetchIssuesSaga(): Generator {
     yield put({ type: ISSUES.SET_ISSUES, payload: list })
   } catch (e) {
     console.error(e)
+    console.log('error')
   } finally {
     yield put(endLoading())
   }

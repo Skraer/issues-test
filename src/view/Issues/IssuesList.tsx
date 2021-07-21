@@ -12,23 +12,21 @@ const IssuesList: React.FC = () => {
   const { list, totalCount, loading, options } = useSelector(
     (state: DefaultIssuesState) => state.issues
   )
-  const [currentPage, setCurrentPage] = useState(1)
   const [needPagination, setNeedPagination] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (list?.length) changePage()
-  }, [currentPage])
+    console.log('loading')
+  }, [loading])
 
   useEffect(() => {
-    if (list && totalCount && totalCount > 10) setNeedPagination(true)
-    else setNeedPagination(false)
+    setNeedPagination(Boolean(list && totalCount && totalCount > 10))
   }, [totalCount, list])
 
-  const changePage = (): void => {
-    dispatch(setOptions({ ...options, page: currentPage }))
+  const changePage = (page: string | number): void => {
+    dispatch(setOptions({ ...options, page: page }))
     dispatch(fetchIssues())
-    console.log(currentPage)
+    console.log(page)
   }
 
   const emptyComponent = <p className="text-center">Здесь данных нет :(</p>
@@ -52,10 +50,8 @@ const IssuesList: React.FC = () => {
         <Pagination
           amountElems={totalCount}
           perPage={+options.perPage}
-          onChange={(page) => {
-            setCurrentPage(page)
-          }}
-          active={currentPage}
+          onChange={changePage}
+          active={+options.page}
         />
       )}
     </div>

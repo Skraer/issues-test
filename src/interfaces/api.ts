@@ -15,5 +15,9 @@ export interface IApi {
   ): Promise<T>
   getQueryString(options: IssuesOptionsType): string
   getIssuesCount<T>(username: string, repo: string, state?: string): Promise<T>
-  getFormattedData<T extends object>(data: T[]): IIssueItem[]
+  // getFormattedData<Array>(data: []): IIssueItem[]
+  // getFormattedData(data: object)
+  fromSnakeToCamel(snake: string): string
+  // fetchUser<T>(username: string): Promise<T>
+  // fetchRepos<T>(username: string): Promise<T>
 }

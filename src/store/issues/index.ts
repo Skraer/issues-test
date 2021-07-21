@@ -8,7 +8,7 @@ import { IssuesOptionsType } from '../../interfaces/api'
 // export type FetchIssuesType = Dispatch
 
 const initialOptions: IssuesOptionsType = {
-  perPage: '10',
+  perPage: 10,
   page: 1,
   state: 'open',
 }

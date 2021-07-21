@@ -20,7 +20,7 @@ const IssueItem: React.FC<IIssueItem> = ({
           <div className="issue-item_user-avatar">
             <img src={user.avatar} alt="" />
           </div>
-          <a className="issue-item_user-link" href="#">
+          <a className="issue-item_user-link" href={user.url}>
             {user.username}
           </a>
         </div>
