@@ -34,4 +34,4 @@ const IssuePage: React.FC = () => {
   )
 }
 
-export { IssuePage }
+export default IssuePage

@@ -9,8 +9,8 @@ import {
   Switch,
   NavLink,
 } from 'react-router-dom'
-import { Home } from './view/routes/Home'
-import { IssuePage } from './view/routes/IssuePage'
+import Home from './view/routes/Home'
+import IssuePage from './view/routes/IssuePage'
 
 const App: React.FC = () => {
   const issueError = useSelector(

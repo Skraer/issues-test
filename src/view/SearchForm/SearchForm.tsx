@@ -11,6 +11,7 @@ import {
   setOptions,
   fetchCount,
 } from '../../store/issues/actions'
+import InputField from './InputField'
 
 const SearchForm: React.FC = () => {
   const issues = useSelector((state: DefaultIssuesState) => state.issues)
@@ -52,46 +53,34 @@ const SearchForm: React.FC = () => {
   const fetchData = (): void => {
     const u = normalizeString(userData.username)
     const r = normalizeString(userData.repo)
-    dispatch(setUsername(u))
-    dispatch(setRepo(r))
-    dispatch(fetchIssues())
-    dispatch(fetchCount())
+    if (u && r) {
+      dispatch(setUsername(u))
+      dispatch(setRepo(r))
+      dispatch(fetchIssues())
+      dispatch(fetchCount())
+    } else {
+      alert('Логин и название репозитория не должны быть пустыми!')
+    }
   }
 
   return (
     <div className="search-form">
       <form onSubmit={userSearchSubmit}>
         <div className="col">
-          <div className="input-field">
-            <label>
-              <span>Введите логин пользователя: </span>
-              <input
-                type="text"
-                name="username"
-                value={userData.username}
-                onChange={changeHandler}
-                disabled={issues.loading}
-              />
-            </label>
-            <button name="confirm-username" type="button">
-              Ок
-            </button>
-          </div>
-          <div className="input-field">
-            <label>
-              <span>Введите название репозитория: </span>
-              <input
-                type="text"
-                name="repo"
-                value={userData.repo}
-                onChange={changeHandler}
-                disabled={issues.loading}
-              />
-            </label>
-            <button name="confirm-repo" type="button">
-              Ок
-            </button>
-          </div>
+          <InputField
+            label="Введите логин пользователя:"
+            name="username"
+            value={userData.username}
+            onChange={changeHandler}
+            disabled={issues.loading}
+          />
+          <InputField
+            label="Введите название репозитория:"
+            name="repo"
+            value={userData.repo}
+            onChange={changeHandler}
+            disabled={issues.loading}
+          />
           <button type="submit" disabled={issues.loading}>
             Поиск
           </button>

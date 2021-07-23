@@ -1,7 +1,7 @@
 // import { ApiHandlerType, IssuesOptionsType } from '../interfaces/api'
-
-import { IApi, IssuesOptionsType } from '../interfaces/api'
-import { IIssueItem } from '../interfaces/issues'
+import fetch from 'node-fetch'
+import { IApi, IssuesOptionsType } from '../../interfaces/api'
+import { IIssueItem } from '../../interfaces/issues'
 
 // const API = process.env.REACT_APP_API
 
@@ -24,7 +24,7 @@ export class Api implements IApi {
     const response = await fetch(urlString)
     const data = await response.json()
 
-    console.log(data)
+    // console.log(response)
 
     if (!response.ok) {
       throw new Error(data.message)

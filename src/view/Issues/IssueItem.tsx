@@ -43,4 +43,4 @@ const IssueItem: React.FC<IIssueItem> = ({
   )
 }
 
-export { IssueItem }
+export default IssueItem

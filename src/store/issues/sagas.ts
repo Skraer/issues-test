@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import store from '..'
-import { Api } from '../../domains/api'
+import { Api } from '../../domains/api/api'
 import { ISSUES } from '../types'
 import { endLoading, startLoading } from './actions'
 

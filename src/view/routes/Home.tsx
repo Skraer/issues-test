@@ -1,5 +1,5 @@
 import React from 'react'
-import { IssuesList } from '../Issues/IssuesList'
+import IssuesList from '../Issues/IssuesList'
 import SearchForm from '../SearchForm/SearchForm'
 
 const Home: React.FC = () => {
@@ -11,4 +11,4 @@ const Home: React.FC = () => {
   )
 }
 
-export { Home }
+export default Home

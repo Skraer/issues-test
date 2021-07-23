@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { DefaultIssuesState } from '../../interfaces/issues'
 import { fetchIssues, setOptions } from '../../store/issues/actions'
-import { IssueItem } from './IssueItem'
+import IssueItem from './IssueItem'
 import { Pagination } from './Pagination'
 
 const IssuesList: React.FC = () => {
@@ -58,4 +58,4 @@ const IssuesList: React.FC = () => {
   )
 }
 
-export { IssuesList }
+export default IssuesList
